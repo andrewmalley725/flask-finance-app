@@ -2,6 +2,7 @@ from bson import ObjectId
 from flask import jsonify, request, Blueprint
 from db import users
 import creds
+import os
 from hash import sha256_hash
 
 
@@ -31,7 +32,7 @@ def add_user():
         '_id': str(id),
         'name': f'{body["firstname"]} {body["lastname"]}',
         'username': body['username'],
-        'apiKey': creds.API_KEY
+        'apiKey': os.environ.get('API_KEY')
     }
 
 
@@ -49,7 +50,7 @@ def auth():
             result['_id'] = str(user['_id'])
             result['name'] = f'{user["firstname"]} {user["lastname"]}'
             result['username'] = user['username']
-            result['apiKey'] = creds.API_KEY
+            result['apiKey'] = os.environ.get('API_KEY')
         else:
             msg = 'invalid password'
     else:
