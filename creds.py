@@ -1,0 +1,2 @@
+API_KEY = '70b50751ee1db558cca4365d7451f42b811a0284fc8c1a8211470a3980c4e3b4'
+MONGO_URI = 'mongodb+srv://andrewmalley:Queloque!72599@cluster0.fgkgdss.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
