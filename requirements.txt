@@ -1,5 +1,4 @@
 blinker==1.7.0
-bson==0.5.10
 certifi==2024.2.2
 click==8.1.7
 dnspython==2.6.1

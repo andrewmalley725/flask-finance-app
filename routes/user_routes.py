@@ -1,7 +1,7 @@
 from bson import ObjectId
 from flask import jsonify, request, Blueprint
 from db import users
-import creds
+
 import os
 from hash import sha256_hash
 
