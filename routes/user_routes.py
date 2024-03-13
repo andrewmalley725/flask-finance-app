@@ -1,8 +1,7 @@
 from bson import ObjectId
 from flask import jsonify, request, Blueprint
 from db import users
-
-import os
+import creds
 from hash import sha256_hash
 
 
@@ -10,6 +9,7 @@ user_routes = Blueprint('user_routes', __name__)
 
 @user_routes.route('/data/<uid>', methods=['GET'])
 def get_data(uid):
+    print('ping')
     user = users.find_one({'_id': ObjectId(uid)})
     user['_id'] = str(user['_id'])
     del user['password']
@@ -32,7 +32,7 @@ def add_user():
         '_id': str(id),
         'name': f'{body["firstname"]} {body["lastname"]}',
         'username': body['username'],
-        'apiKey': os.environ.get('API_KEY')
+        'apiKey': creds.API_KEY
     }
 
 
@@ -50,7 +50,7 @@ def auth():
             result['_id'] = str(user['_id'])
             result['name'] = f'{user["firstname"]} {user["lastname"]}'
             result['username'] = user['username']
-            result['apiKey'] = os.environ.get('API_KEY')
+            result['apiKey'] = creds.API_KEY
         else:
             msg = 'invalid password'
     else:
