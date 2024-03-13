@@ -1,0 +1,42 @@
+swagger: "2.0.0"
+info:
+  title: "Finance API"
+  description: "Manage your finances"
+  version: "1.0.0"
+schemes:
+  - "http"
+produces:
+  - "application/json"
+paths:
+  /test:
+    get:
+      summary: "Test route"
+      tags:
+        - "Test"
+      responses:
+        200:
+          description: "Successful response"
+        500:
+          description: "Internal server error"
+  /data/{uid}:
+    get:
+      summary: "Get user data"
+      tags:
+        - "User"
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: integer
+          description: string
+        - name: x-api-key
+          in: header
+          description: 
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Successful response"
+        500:
+          description: "Internal server error"
