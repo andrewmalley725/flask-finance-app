@@ -1,10 +1,12 @@
 from flask import jsonify, request, Blueprint
+from flask_cors import CORS
 from db import users
 from bson import ObjectId
 from datetime import datetime
 
 
 transaction_routes = Blueprint('transaction_routes', __name__)
+CORS(transaction_routes)
 
 @transaction_routes.route('/addTransaction/<uid>', methods=['POST'])
 def add_transaction(uid):

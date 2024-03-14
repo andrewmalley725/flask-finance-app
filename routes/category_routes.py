@@ -1,8 +1,10 @@
 from flask import jsonify, request, Blueprint
+from flask_cors import CORS
 from db import users
 from bson import ObjectId
 
 category_routes = Blueprint('category_routes', __name__)
+CORS(category_routes)
 
 @category_routes.route('/addCategory/<uid>', methods=['POST'])
 def add_category(uid):

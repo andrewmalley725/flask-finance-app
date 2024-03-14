@@ -1,5 +1,6 @@
 from bson import ObjectId
 from flask import jsonify, request, Blueprint
+from flask_cors import CORS
 from db import users
 from hash import sha256_hash
 from dotenv import load_dotenv
@@ -7,10 +8,10 @@ import os
 
 load_dotenv()
 
-
 user_routes = Blueprint('user_routes', __name__)
+CORS(user_routes)
 
-@user_routes.route('/data/<uid>', methods=['GET'])
+@user_routes.route('/data/<uid>', methods=['GET', 'OPTIONS'])
 def get_data(uid):
     print('ping')
     user = users.find_one({'_id': ObjectId(uid)})

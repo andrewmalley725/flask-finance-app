@@ -1,10 +1,12 @@
 from flask import jsonify, request, Blueprint
+from flask_cors import CORS
 from db import users
 from bson import ObjectId
 from datetime import datetime
 
 
 income_routes = Blueprint('income_routes', __name__)
+CORS(income_routes)
 
 @income_routes.route('/addPayday/<uid>', methods=['POST'])
 def add_income(uid):
