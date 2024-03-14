@@ -97,6 +97,27 @@ paths:
         500:
           description: "Internal server error"
 
+  /deleteUser/{uid}:
+    delete:
+      summary: "Delete a user"
+      parameters:
+        - name: x-api-key
+          in: header
+          description: 
+          required: true
+          type: string
+        - name: uid
+          in: path
+          required: true
+          type: string
+      tags:
+        - "User"
+      responses:
+        200:
+          description: "Successful response"
+        500:
+          description: "Internal server error"
+
   /addCategory/{uid}:
     post:
       summary: "Add a new money category"

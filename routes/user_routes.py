@@ -15,9 +15,11 @@ CORS(user_routes)
 def get_data(uid):
     print('ping')
     user = users.find_one({'_id': ObjectId(uid)})
-    user['_id'] = str(user['_id'])
-    del user['password']
-    return jsonify(user)
+    if user:
+        user['_id'] = str(user['_id'])
+        del user['password']
+        return jsonify(user)
+    return jsonify({'status': 'user does not exist'})
 
 @user_routes.route('/addUser', methods=['POST'])
 def add_user():
@@ -61,3 +63,11 @@ def auth():
         msg = 'please enter a valid username'
     result['status'] = msg
     return result
+
+@user_routes.route('/deleteUser/<uid>', methods=['DELETE'])
+def del_user(uid):
+    id = ObjectId(uid)
+    if users.find_one({'_id': id}):
+        users.delete_one({'_id': id})
+        return jsonify({'status': 'success'})
+    return jsonify({'status': 'user does not exist'})
