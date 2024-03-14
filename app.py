@@ -6,6 +6,9 @@ import creds
 
 
 app = Flask(__name__)
+app.config['SWAGGER'] = {
+    'openapi': '3.0.0'
+}
 swagger = Swagger(app, template_file='swagger.yaml')
 
 @app.before_request
