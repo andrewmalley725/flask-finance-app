@@ -1,8 +1,11 @@
 from bson import ObjectId
 from flask import jsonify, request, Blueprint
 from db import users
-import creds
 from hash import sha256_hash
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 user_routes = Blueprint('user_routes', __name__)
@@ -32,7 +35,7 @@ def add_user():
         '_id': str(id),
         'name': f'{body["firstname"]} {body["lastname"]}',
         'username': body['username'],
-        'apiKey': creds.API_KEY
+        'apiKey': os.getenv('API_KEY')
     }
 
 
@@ -50,7 +53,7 @@ def auth():
             result['_id'] = str(user['_id'])
             result['name'] = f'{user["firstname"]} {user["lastname"]}'
             result['username'] = user['username']
-            result['apiKey'] = creds.API_KEY
+            result['apiKey'] = os.getenv('API_KEY')
         else:
             msg = 'invalid password'
     else:

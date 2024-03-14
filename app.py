@@ -2,7 +2,6 @@ from flask import Flask, request
 from auth import validate_api_key
 from routes import main_routes
 from flasgger import Swagger
-import creds
 
 
 app = Flask(__name__)

@@ -1,9 +1,12 @@
 # db.py
 from pymongo.mongo_client import MongoClient
 import certifi
-import creds
+from dotenv import load_dotenv
+import os
 
-uri = creds.MONGO_URI
+load_dotenv()
+
+uri = os.getenv('MONGO_URI')
 client = MongoClient(uri, tlsCAFile=certifi.where())
 db = client['finance-app']
 users = db.user

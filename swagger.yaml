@@ -25,12 +25,11 @@ paths:
       tags:
         - "User"
       parameters:
-        - in: path
-          name: uid
+        - name: uid
+          in: path
           required: true
-          schema:
-            type: integer
-          description: string
+          type: string
+          description: user id
         - name: x-api-key
           in: header
           description: 
@@ -120,12 +119,12 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                account_name:
                   type: string
                 weight:
                   type: float
               example:
-                name: savings
+                account_name: savings
                 weight: 0.10
       responses:
         200:
