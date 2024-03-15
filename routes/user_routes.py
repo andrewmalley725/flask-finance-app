@@ -24,6 +24,7 @@ def get_data(uid):
 @user_routes.route('/addUser', methods=['POST'])
 def add_user():
     body = request.json
+    body['username'] = body['username'].lower()
     body['accounts'] = [{
         'account_name': 'Unallocated funds',
         'weight': 1.0,
@@ -50,7 +51,7 @@ def auth():
     data = request.json
     username = data['username']
     password = sha256_hash(data['password'])
-    user = users.find_one({'username':username})
+    user = users.find_one({'username':username.lower()})
     if user:
         if password == user['password']:
             user['_id'] = str(user['_id'])
