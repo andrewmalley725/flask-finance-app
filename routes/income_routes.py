@@ -26,7 +26,7 @@ def add_income(uid):
 
     for i in range(len(user['accounts'])):
         account = user['accounts'][i]
-        new_balance = account['weight'] * body['amount']
+        new_balance = account['weight'] * user['balance']
         users.update_one({'_id': id}, {'$set': {f'accounts.{i}.balance': new_balance}})
 
     user = users.find_one({'_id':id})
