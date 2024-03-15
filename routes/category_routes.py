@@ -23,11 +23,15 @@ def add_category(uid):
     }
     users.update_one(user, update_operations)
     users.update_one({'_id': id}, {'$set': {'accounts.0.weight': unallocated, 'accounts.0.balance': unallocated_balance}})
-    return jsonify({'status': 'success'})
+    user = users.find_one({'_id':id})
+    user['_id'] = str(user['_id'])
+    del user['password']
+    return jsonify({'status': 'added', 'user': user})
 
 @category_routes.route('/deleteCategory/<uid>', methods=['DELETE'])
 def del_category(uid):
-    user = users.find_one({'_id': ObjectId(uid)})
+    id = ObjectId(uid)
+    user = users.find_one({'_id': id})
     unallocated_bal = user['accounts'][0]['balance']
     unallocated_weight = user['accounts'][0]['weight']
     category = request.args.get('category')
@@ -36,8 +40,11 @@ def del_category(uid):
         if account['account_name'] == category:
             balance = account['balance']
             weight = account['weight']
-            users.update_one({'_id': ObjectId(uid)}, {'$set': {'accounts.0.balance': unallocated_bal + balance, 'accounts.0.weight': unallocated_weight + weight}})
-            users.update_one({'_id': ObjectId(uid)}, {'$pull': {'accounts': {'account_name': category}}})
-            return jsonify({'status':'success'})
+            users.update_one({'_id': id}, {'$set': {'accounts.0.balance': unallocated_bal + balance, 'accounts.0.weight': unallocated_weight + weight}})
+            users.update_one({'_id': id}, {'$pull': {'accounts': {'account_name': category}}})
+            user = users.find_one({'_id':id})
+            user['_id'] = str(user['_id'])
+            del user['password']
+            return jsonify({'status':'success', 'user': user})
     return jsonify({'status':'account does not exist'})
 

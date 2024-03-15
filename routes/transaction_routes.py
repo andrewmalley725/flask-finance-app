@@ -25,5 +25,8 @@ def add_transaction(uid):
             curr_balance = account['balance']
             users.update_one({'_id':id}, {'$push': {'transactions': body}})
             users.update_one({'_id':id}, {'$set': {f'accounts.{i}.balance': curr_balance - body['amount'], 'balance': user['balance'] - body['amount']}})
-            return jsonify({'status': 'added'})
+            user = users.find_one({'_id':id})
+            user['_id'] = str(user['_id'])
+            del user['password']
+            return jsonify({'status': 'added', 'user': user})
     return jsonify({'status': 'account does not exist'})

@@ -34,10 +34,11 @@ def add_user():
     body['balance'] = 0.0
     body['password'] = sha256_hash(body['password'])
     id = users.insert_one(body).inserted_id
+    user = users.find_one({'_id':id})
+    user['_id'] = str(user['_id'])
+    del user['password']
     return {
-        '_id': str(id),
-        'name': f'{body["firstname"]} {body["lastname"]}',
-        'username': body['username'],
+        'user': user,
         'apiKey': os.getenv('API_KEY')
     }
 
@@ -52,10 +53,10 @@ def auth():
     user = users.find_one({'username':username})
     if user:
         if password == user['password']:
+            user['_id'] = str(user['_id'])
+            del user['password']
             msg = 'successfully logged in'
-            result['_id'] = str(user['_id'])
-            result['name'] = f'{user["firstname"]} {user["lastname"]}'
-            result['username'] = user['username']
+            result['user'] = user
             result['apiKey'] = os.getenv('API_KEY')
         else:
             msg = 'invalid password'

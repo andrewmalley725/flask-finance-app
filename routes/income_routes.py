@@ -29,5 +29,9 @@ def add_income(uid):
         new_balance = account['weight'] * body['amount']
         users.update_one({'_id': id}, {'$set': {f'accounts.{i}.balance': new_balance}})
 
-    return jsonify({'status': 'added'})
+    user = users.find_one({'_id':id})
+    user['_id'] = str(user['_id'])
+    del user['password']
+
+    return jsonify({'status': 'added', 'user': user})
 
