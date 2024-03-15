@@ -18,15 +18,16 @@ def add_income(uid):
 
     body = request.json
     body['date'] = date_time_stamp
+    total_balance = user['balance'] + body['amount']
     operations = {
         '$push': {'income': body},
-        '$set': {'balance': user['balance'] + body['amount']}
+        '$set': {'balance': total_balance}
     }
     users.update_one({'_id': id}, operations)
 
     for i in range(len(user['accounts'])):
         account = user['accounts'][i]
-        new_balance = account['weight'] * user['balance']
+        new_balance = account['weight'] * total_balance
         users.update_one({'_id': id}, {'$set': {f'accounts.{i}.balance': new_balance}})
 
     user = users.find_one({'_id':id})
