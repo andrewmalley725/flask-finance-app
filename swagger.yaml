@@ -251,3 +251,42 @@ paths:
           description: "Successful response"
         500:
           description: "Internal server error"
+
+  /moveFunds/{uid}:
+    post:
+      summary: "Move money between categories"
+      parameters:
+        - name: x-api-key
+          in: header
+          description: 
+          required: true
+          type: string
+        - name: uid
+          in: path
+          required: true
+          type: string
+      tags:
+        - "Category"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+                amount:
+                  type: number
+              examples:
+                application/json:
+                  from: Account 1
+                  to: Account 2
+                  amount: 100
+      responses:
+        200:
+          description: "Successful response"
+        500:
+          description: "Internal server error"

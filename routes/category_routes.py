@@ -48,3 +48,29 @@ def del_category(uid):
             return jsonify({'status':'success', 'user': user})
     return jsonify({'status':'account does not exist'})
 
+@category_routes.route('/moveFunds/<uid>', methods=['POST'])
+def move_funds(uid):
+    id = ObjectId(uid)
+    user = users.find_one({'_id': id})
+
+    body = request.json
+    transfer_from = body['from']
+    transfer_to = body['to']
+    amount = body['amount']
+    from_index = 0
+    from_balance = 0
+    to_index = 0
+    to_balance = 0
+
+    for i in range(len(user['accounts'])):
+        if user['accounts'][i]['account_name'] == transfer_from:
+            from_index = i
+            from_balance = user['accounts'][i]['balance']
+        elif user['accounts'][i]['account_name'] == transfer_to:
+            to_index = i
+            to_balance = user['accounts'][i]['balance']
+
+    users.update_one({'_id':id}, {'$set': {f'accounts.{from_index}.balance': from_balance - amount, f'accounts.{to_index}.balance':  to_balance + amount}})
+    user = users.find_one({'_id':id})
+    user['_id'] = str(user['_id'])
+    return jsonify({'status':'success', 'user': user})
