@@ -25,6 +25,8 @@ def get_data(uid):
 def add_user():
     body = request.json
     body['username'] = body['username'].lower()
+    if users.find_one({'username': body['username'].lower()}):
+        return jsonify({'status': 'Someone with that username already exists!'})
     body['accounts'] = [{
         'account_name': 'Unallocated funds',
         'weight': 1.0,

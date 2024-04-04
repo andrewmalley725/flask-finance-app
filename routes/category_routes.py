@@ -73,4 +73,5 @@ def move_funds(uid):
     users.update_one({'_id':id}, {'$set': {f'accounts.{from_index}.balance': from_balance - amount, f'accounts.{to_index}.balance':  to_balance + amount}})
     user = users.find_one({'_id':id})
     user['_id'] = str(user['_id'])
+    del user['password']
     return jsonify({'status':'success', 'user': user})
