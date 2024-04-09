@@ -36,3 +36,26 @@ def add_income(uid):
 
     return jsonify({'status': 'added', 'user': user})
 
+
+@income_routes.route('/addBalance/<uid>', methods=['POST'])
+def add_balance(uid):
+    id = ObjectId(uid)
+    user = users.find_one({'_id': id})
+
+    body = request.json
+    category = body['category']
+    amount = body['amount']
+
+    for i in range(len(user['accounts'])):
+        account = user['accounts'][i]
+        if account['account_name'] == category:
+            print(user['accounts'][i]['balance'])
+            user['accounts'][i]['balance'] += float(amount)
+            user['balance'] += float(amount)
+            users.update_one({'_id': id}, {'$set': user})
+            user['_id'] = str(user['_id'])
+            del user['password']
+            return jsonify({'status': 'added', 'user': user})
+    return jsonify({'status': 'account does not exist'})
+
+
