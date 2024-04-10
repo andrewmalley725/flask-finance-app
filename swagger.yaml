@@ -321,6 +321,7 @@ paths:
                 application/json:
                   category: Savings
                   amount: 100
+                  description: Bonus
       responses:
         200:
           description: "Successful response"

@@ -46,12 +46,22 @@ def add_balance(uid):
     category = body['category']
     amount = body['amount']
 
+    current_datetime = datetime.now()
+    date_time_stamp = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+
+    income = {
+        'amount': float(amount),
+        'date': date_time_stamp,
+        'description': body['description']
+    }
+
     for i in range(len(user['accounts'])):
         account = user['accounts'][i]
         if account['account_name'] == category:
             print(user['accounts'][i]['balance'])
             user['accounts'][i]['balance'] += float(amount)
             user['balance'] += float(amount)
+            user['income'].append(income)
             users.update_one({'_id': id}, {'$set': user})
             user['_id'] = str(user['_id'])
             del user['password']

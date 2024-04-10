@@ -25,7 +25,6 @@ def handle_preflight():
     
 @app.before_request
 def before_request():
-    print(request.endpoint)
     whitelist_routes = ['main_routes.user_routes.auth', 'main_routes.user_routes.add_user', 'main_routes.test', 'flasgger']
     if any(request.endpoint.startswith(pattern) for pattern in whitelist_routes):
         return
