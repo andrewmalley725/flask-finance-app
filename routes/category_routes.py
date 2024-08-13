@@ -15,9 +15,10 @@ def add_category(uid):
     body = request.json
     account_weight = body['weight']
     unallocated -= account_weight
-    unallocated_balance = unallocated * user['balance']
+    
 
     body['balance'] = user['balance'] * account_weight
+    unallocated_balance = user['accounts'][0]['balance'] - body['balance']
     update_operations = {
         '$push': {'accounts': body},
     }
